@@ -1,0 +1,111 @@
+---
+import ResourceCard from "../../../components/ResourceCard.astro";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import {
+  formatDate,
+  getCategory,
+  getCopy,
+  getTopic,
+  typedResources,
+  type Language
+} from "../../../lib/content";
+
+export function getStaticPaths() {
+  return ["zh", "en"].flatMap((lang) =>
+    typedResources.map((resource) => ({ params: { lang, slug: resource.slug } }))
+  );
+}
+
+const lang = Astro.params.lang as Language;
+const slug = Astro.params.slug as string;
+const copy = getCopy(lang);
+const resource = typedResources.find((item) => item.slug === slug) ?? typedResources[0];
+const category = getCategory(resource.category);
+const related = typedResources
+  .filter((item) => item.slug !== resource.slug && item.topics.some((topic) => resource.topics.includes(topic)))
+  .slice(0, 3);
+const activeSection = resource.category === "scholarship" ? "scholarship" : "resources";
+const hasSharedSource = resource.officialEnglishUrl && resource.officialEnglishUrl === resource.officialChineseUrl;
+const statusLabel =
+  resource.englishStatus === "official"
+    ? copy.officialEnglish
+    : resource.englishStatus === "summary-only"
+      ? copy.englishSummaryOnly
+      : copy.noOfficialEnglish;
+---
+
+<BaseLayout
+  lang={lang}
+  title={resource.title[lang]}
+  description={resource.summary[lang]}
+  active={activeSection}
+  alternatePath={`/resources/${resource.slug}/`}
+>
+  <section class="page-band">
+    <div class="page-band-inner">
+      <p class="eyebrow">{category.label[lang]} / {statusLabel}</p>
+      <h1>{resource.title[lang]}</h1>
+      <p class="section-lead">{resource.summary[lang]}</p>
+    </div>
+  </section>
+  <section class="detail-layout">
+    <article class="detail-panel">
+      <h2>{lang === "zh" ? "资料说明" : "Record note"}</h2>
+      <p>{resource.summary[lang]}</p>
+      <dl class="detail-meta">
+        <div>
+          <dt>{copy.source}</dt>
+          <dd>{resource.authority[lang]}</dd>
+        </div>
+        {resource.authors && (
+          <div>
+            <dt>{copy.author}</dt>
+            <dd>{resource.authors[lang]}</dd>
+          </div>
+        )}
+        <div>
+          <dt>{copy.date}</dt>
+          <dd>{formatDate(resource.date, lang)}</dd>
+        </div>
+        <div>
+          <dt>{copy.jurisdiction}</dt>
+          <dd>{resource.jurisdiction}</dd>
+        </div>
+        <div>
+          <dt>{copy.categories}</dt>
+          <dd>{category.label[lang]}</dd>
+        </div>
+      </dl>
+      <div class="detail-links">
+        <a class="hero-link primary" href={resource.officialChineseUrl} target="_blank" rel="noreferrer">
+          {hasSharedSource ? copy.sourceLink : copy.officialCn}
+        </a>
+        {resource.officialEnglishUrl && !hasSharedSource ? (
+          <a class="hero-link" href={resource.officialEnglishUrl} target="_blank" rel="noreferrer">{copy.officialEn}</a>
+        ) : (
+          !hasSharedSource && <span class="hero-link">{copy.englishSummaryOnly}</span>
+        )}
+      </div>
+    </article>
+    <aside class="detail-panel">
+      <h2>{copy.keywords}</h2>
+      <div class="keyword-list">
+        {resource.keywords[lang].map((keyword) => <span class="keyword">{keyword}</span>)}
+      </div>
+      <h2 style="margin-top: 24px;">{copy.topics}</h2>
+      <div class="tag-row">
+        {resource.topics.map((topicId) => (
+          <a href={`/${lang}/topics/${topicId}/`}>{getTopic(topicId).label[lang]}</a>
+        ))}
+      </div>
+    </aside>
+  </section>
+  {related.length > 0 && (
+    <section class="section">
+      <h2>{copy.related}</h2>
+      <div class="resource-grid">
+        {related.map((item) => <ResourceCard resource={item} lang={lang} />)}
+      </div>
+    </section>
+  )}
+</BaseLayout>
