@@ -1,0 +1,21 @@
+.site-notice {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.header-notice {
+  background: rgba(255, 255, 255, 0.62);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  grid-column: 1 / -1;
+  justify-self: start;
+  padding: 7px 12px;
+}
+
+.footer-notice {
+  border-top: 1px solid var(--line);
+  grid-column: 1 / -1;
+  padding-top: 14px;
+}
