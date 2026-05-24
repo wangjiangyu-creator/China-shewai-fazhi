@@ -1,6 +1,6 @@
 ---
 import ResourceCard from "./ResourceCard.astro";
-import { categories, getCopy, kinds, topics, type Language, type Resource } from "../lib/content";
+import { categories, getCopy, kinds, sitePath, topics, type Language, type Resource } from "../lib/content";
 
 interface Props {
   lang: Language;
@@ -158,4 +158,4 @@ const authorityOptions = visibleAuthorityFilter
   <p class="empty-state" data-empty-state hidden>{copy.noResults}</p>
 </section>
 
-<script is:inline src="/scripts/search.js"></script>
+<script is:inline src={sitePath("/scripts/search.js")}></script>
