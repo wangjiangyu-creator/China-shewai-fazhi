@@ -1,0 +1,149 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import {
+  formatDate,
+  getCategory,
+  getCopy,
+  getTopic,
+  getTool,
+  tools,
+  typedResources,
+  type Language
+} from "../../../lib/content";
+
+export function getStaticPaths() {
+  return ["zh", "en"].flatMap((lang) => tools.map((tool) => ({ params: { lang, tool: tool.id } })));
+}
+
+const lang = Astro.params.lang as Language;
+const toolId = Astro.params.tool as string;
+const copy = getCopy(lang);
+const tool = getTool(toolId);
+const sorted = [...typedResources].sort((a, b) => b.date.localeCompare(a.date));
+const keywordGroups = [...new Set(typedResources.flatMap((item) => item.keywords[lang]))].sort((a, b) =>
+  a.localeCompare(b, lang === "zh" ? "zh-CN" : "en")
+);
+const sourceRows = Object.values(
+  typedResources.reduce(
+    (acc, resource) => {
+      const key = resource.authority[lang];
+      acc[key] ??= {
+        authority: resource.authority[lang],
+        categories: new Set<string>(),
+        count: 0,
+        officialEnglish: 0,
+        links: [] as Array<{ label: string; url: string }>
+      };
+      acc[key].count += 1;
+      if (resource.englishStatus === "official") acc[key].officialEnglish += 1;
+      acc[key].categories.add(getCategory(resource.category).label[lang]);
+      acc[key].links.push({ label: resource.title[lang], url: `/${lang}/resources/${resource.slug}/` });
+      return acc;
+    },
+    {} as Record<string, { authority: string; categories: Set<string>; count: number; officialEnglish: number; links: Array<{ label: string; url: string }> }>
+  )
+).sort((a, b) => b.count - a.count);
+---
+
+<BaseLayout lang={lang} title={tool.label[lang]} active="tools" alternatePath={`/tools/${toolId}/`}>
+  <section class="page-band">
+    <div class="page-band-inner">
+      <p class="eyebrow">{copy.tools}</p>
+      <h1>{tool.label[lang]}</h1>
+      <p class="section-lead">{tool.description[lang]}</p>
+      <nav class="tool-nav" aria-label="Tool navigation">
+        {tools.map((item) => <a href={`/${lang}/tools/${item.id}/`}>{item.label[lang]}</a>)}
+      </nav>
+    </div>
+  </section>
+
+  {toolId === "timeline" && (
+    <section class="section">
+      <h2>{copy.latest}</h2>
+      <div class="timeline">
+        {sorted.map((resource) => (
+          <article class="timeline-item">
+            <strong>{formatDate(resource.date, lang)}</strong>
+            <h3><a href={`/${lang}/resources/${resource.slug}/`}>{resource.title[lang]}</a></h3>
+            <p>{resource.summary[lang]}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  )}
+
+  {toolId === "keywords" && (
+    <section class="section">
+      <h2>{copy.keywords}</h2>
+      <div class="keyword-list">
+        {keywordGroups.map((keyword) => <span class="keyword">{keyword}</span>)}
+      </div>
+    </section>
+  )}
+
+  {toolId === "toolbox" && (
+    <section class="section">
+      <h2>{copy.tools}</h2>
+      <div class="tool-grid">
+        {["sanctions-countermeasures", "trade-investment", "corporate-compliance", "dispute-resolution"].map((topicId) => {
+          const count = typedResources.filter((resource) => resource.topics.includes(topicId)).length;
+          return (
+            <article class="tool-card">
+              <h3>{getTopic(topicId).label[lang]}</h3>
+              <p>{count} {copy.records}</p>
+              <a class="hero-link" href={`/${lang}/topics/${topicId}/`}>{lang === "zh" ? "查看资料" : "View records"}</a>
+            </article>
+          );
+        })}
+      </div>
+    </section>
+  )}
+
+  {toolId === "source-map" && (
+    <section class="section">
+      <h2>{tool.label[lang]}</h2>
+      <p class="section-lead">
+        {lang === "zh"
+          ? "按来源机关查看资料覆盖和官方英文版情况，便于后续扩充资料时优先补齐权威入口。"
+          : "Browse source institutions, coverage, and official English availability to guide future curation."}
+      </p>
+      <div class="source-list">
+        {sourceRows.map((row) => (
+          <article class="source-row">
+            <div>
+              <h3>{row.authority}</h3>
+              <p>{[...row.categories].join(" / ")}</p>
+            </div>
+            <div class="source-stats">
+              <span>{row.count} {copy.records}</span>
+              <span>{row.officialEnglish} {copy.officialEnglish}</span>
+            </div>
+            <div class="source-links">
+              {row.links.slice(0, 4).map((link) => <a href={link.url}>{link.label}</a>)}
+              <a href={`/${lang}/resources/?authority=${encodeURIComponent(row.authority)}`}>{lang === "zh" ? "查看全部来源资料" : "View all records"}</a>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+  )}
+
+  {toolId === "project-updates" && (
+    <section class="section">
+      <h2>{copy.openItems}</h2>
+      <div class="tool-grid">
+        {[
+          lang === "zh" ? "研究简报" : "Research briefs",
+          lang === "zh" ? "专题报告" : "Thematic reports",
+          lang === "zh" ? "会议纪要" : "Meeting notes",
+          lang === "zh" ? "阶段成果" : "Interim outputs"
+        ].map((item) => (
+          <article class="tool-card">
+            <h3>{item}</h3>
+            <p>{lang === "zh" ? "后续可在此沉淀项目成果。" : "Future project outputs can be collected here."}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  )}
+</BaseLayout>
