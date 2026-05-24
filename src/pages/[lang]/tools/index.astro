@@ -1,6 +1,6 @@
 ---
 import BaseLayout from "../../../layouts/BaseLayout.astro";
-import { getCopy, tools, type Language } from "../../../lib/content";
+import { getCopy, languagePath, tools, type Language } from "../../../lib/content";
 
 export function getStaticPaths() {
   return [{ params: { lang: "zh" } }, { params: { lang: "en" } }];
@@ -28,7 +28,7 @@ const copy = getCopy(lang);
         <article class="tool-card">
           <h3>{tool.label[lang]}</h3>
           <p>{tool.description[lang]}</p>
-          <a class="hero-link" href={`/${lang}/tools/${tool.id}/`}>{lang === "zh" ? "打开" : "Open"}</a>
+          <a class="hero-link" href={languagePath(lang, `/tools/${tool.id}/`)}>{lang === "zh" ? "打开" : "Open"}</a>
         </article>
       ))}
     </div>
