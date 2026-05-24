@@ -1,0 +1,56 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import CoverageBoard from "../../../components/CoverageBoard.astro";
+import SearchPanel from "../../../components/SearchPanel.astro";
+import { getCopy, topics, typedResources, type Language } from "../../../lib/content";
+
+export function getStaticPaths() {
+  return [{ params: { lang: "zh" } }, { params: { lang: "en" } }];
+}
+
+const lang = Astro.params.lang as Language;
+const copy = getCopy(lang);
+
+const topicRows = topics
+  .map((topic) => {
+    const related = typedResources.filter((resource) => resource.topics.includes(topic.id));
+    const relatedCount = related.length;
+    const officialCount = related.filter((resource) => resource.englishStatus === "official").length;
+    return { topic, relatedCount, officialCount };
+  })
+  .sort((a, b) => b.relatedCount - a.relatedCount || a.topic.label[lang].localeCompare(b.topic.label[lang], lang === "zh" ? "zh-CN" : "en"));
+---
+
+<BaseLayout lang={lang} title={copy.navTopics} active="topics" alternatePath="/topics/">
+  <section class="page-band">
+    <div class="page-band-inner">
+      <p class="eyebrow">{copy.navTopics}</p>
+      <h1>{copy.topics}</h1>
+      <p class="section-lead">
+        {lang === "zh"
+          ? "按专题进入资料库，快速判断每个研究方向的资料覆盖和官方英文资料情况。"
+          : "Enter the library by topic and quickly see coverage and official English availability for each research direction."}
+      </p>
+    </div>
+  </section>
+  <section class="section">
+    <CoverageBoard lang={lang} />
+  </section>
+  <section class="section">
+    <div class="taxonomy-grid">
+      {topicRows.map(({ topic, relatedCount, officialCount }) => (
+        <article class="taxonomy-card">
+          <h3>{topic.label[lang]}</h3>
+          <p>{topic.description[lang]}</p>
+          <p>
+            {relatedCount} {copy.records}，{officialCount} {copy.officialEnglish}
+          </p>
+          <a href={`/${lang}/topics/${topic.id}/`}>{lang === "zh" ? "进入专题" : "Open topic"}</a>
+        </article>
+      ))}
+    </div>
+  </section>
+  <section class="section">
+    <SearchPanel lang={lang} resources={typedResources} compact showAuthorityFilter />
+  </section>
+</BaseLayout>
