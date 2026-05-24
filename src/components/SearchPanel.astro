@@ -1,0 +1,161 @@
+---
+import ResourceCard from "./ResourceCard.astro";
+import { categories, getCopy, kinds, topics, type Language, type Resource } from "../lib/content";
+
+interface Props {
+  lang: Language;
+  resources: Resource[];
+  compact?: boolean;
+  showScholarshipFilters?: boolean;
+  showAuthorityFilter?: boolean;
+}
+
+const { lang, resources, compact = false, showScholarshipFilters = false, showAuthorityFilter = false } = Astro.props;
+const copy = getCopy(lang);
+const years = [...new Set(resources.map((resource) => resource.date.slice(0, 4)))].sort((a, b) => b.localeCompare(a));
+const categoryIds = new Set(resources.map((resource) => resource.category));
+const categoryOptions = resources.length ? categories.filter((category) => categoryIds.has(category.id)) : categories;
+const visibleScholarshipFilters = showScholarshipFilters && resources.length > 0;
+const visibleAuthorityFilter = showAuthorityFilter && resources.length > 0;
+
+const scholarshipTypeLabels: Record<string, string> = {
+  foundational: copy.foundationalScholarship,
+  specialized: copy.specializedScholarship
+};
+
+const sourceLanguageLabels: Record<string, string> = {
+  zh: copy.sourceLanguageZh,
+  en: copy.sourceLanguageEn,
+  bilingual: copy.sourceLanguageBilingual
+};
+
+const publicationTypeLabels: Record<string, string> = {
+  journal: copy.publicationTypeJournal,
+  government: copy.publicationTypeGovernment,
+  "research-institute": copy.publicationTypeResearchInstitute,
+  "think-tank": copy.publicationTypeThinkTank,
+  "academic-platform": copy.publicationTypeAcademicPlatform
+};
+
+const scholarshipTypeOptions = visibleScholarshipFilters
+  ? [...new Set(resources.map((resource) => resource.scholarshipType))]
+      .filter((item): item is "foundational" | "specialized" => item === "foundational" || item === "specialized")
+      .sort()
+  : [];
+const sourceLanguageOptions = visibleScholarshipFilters
+  ? [...new Set(resources.map((resource) => resource.sourceLanguage))]
+      .filter((item): item is "zh" | "en" | "bilingual" => item === "zh" || item === "en" || item === "bilingual")
+      .sort()
+  : [];
+const publicationTypeOptions = visibleScholarshipFilters
+  ? [...new Set(resources.map((resource) => resource.publicationType))]
+      .filter(
+        (
+          item
+        ): item is "journal" | "government" | "think-tank" | "research-institute" | "academic-platform" =>
+          item === "journal" || item === "government" || item === "think-tank" || item === "research-institute" || item === "academic-platform"
+      )
+      .sort()
+  : [];
+
+const authorityOptions = visibleAuthorityFilter
+  ? [...new Set(resources.map((resource) => resource.authority[lang]))].sort((a, b) => a.localeCompare(b, lang === "zh" ? "zh-CN" : "en"))
+  : [];
+---
+
+<section class:list={["search-panel", { compact }]} data-search-panel>
+  <div class="search-controls">
+    <label class="search-box">
+      <span>{lang === "zh" ? "检索" : "Search"}</span>
+      <input type="search" data-search-input placeholder={copy.searchPlaceholder} />
+    </label>
+    <label>
+      <span>{copy.categories}</span>
+      <select data-filter="category">
+        <option value="">{copy.allCategories}</option>
+        {categoryOptions.map((category) => <option value={category.id}>{category.label[lang]}</option>)}
+      </select>
+    </label>
+    <label>
+      <span>{copy.kinds}</span>
+      <select data-filter="kind">
+        <option value="">{copy.allKinds}</option>
+        {kinds.map((kind) => <option value={kind.id}>{kind.label[lang]}</option>)}
+      </select>
+    </label>
+    <label>
+      <span>{copy.topics}</span>
+      <select data-filter="topic">
+        <option value="">{copy.allTopics}</option>
+        {topics.map((topic) => <option value={topic.id}>{topic.label[lang]}</option>)}
+      </select>
+    </label>
+    <label>
+      <span>{lang === "zh" ? "年份" : "Year"}</span>
+      <select data-filter="year">
+        <option value="">{copy.allYears}</option>
+        {years.map((year) => <option value={year}>{year}</option>)}
+      </select>
+    </label>
+    <label>
+      <span>{copy.allEnglish}</span>
+      <select data-filter="english">
+        <option value="">{copy.allEnglish}</option>
+        <option value="official">{copy.officialEnglish}</option>
+        <option value="summary-only">{copy.summaryOnly}</option>
+        <option value="unavailable">{copy.unavailable}</option>
+      </select>
+    </label>
+    {visibleScholarshipFilters && (
+      <>
+        <label>
+          <span>{copy.scholarshipType}</span>
+          <select data-filter="scholarship-type">
+            <option value="">{copy.allScholarshipTypes}</option>
+            {scholarshipTypeOptions.map((type) => (
+              <option value={type}>{scholarshipTypeLabels[type] ?? type}</option>
+            ))}
+          </select>
+        </label>
+        <label>
+          <span>{copy.sourceLanguage}</span>
+          <select data-filter="source-language">
+            <option value="">{copy.allSourceLanguages}</option>
+            {sourceLanguageOptions.map((langCode) => (
+              <option value={langCode}>{sourceLanguageLabels[langCode] ?? langCode}</option>
+            ))}
+          </select>
+        </label>
+        <label>
+          <span>{copy.publicationType}</span>
+          <select data-filter="publication-type">
+            <option value="">{copy.allPublicationTypes}</option>
+            {publicationTypeOptions.map((publicationType) => (
+              <option value={publicationType}>{publicationTypeLabels[publicationType] ?? publicationType}</option>
+            ))}
+          </select>
+        </label>
+      </>
+    )}
+    {visibleAuthorityFilter && (
+      <label>
+        <span>{copy.authority}</span>
+        <select data-filter="authority">
+          <option value="">{copy.allAuthorities}</option>
+          {authorityOptions.map((authority) => <option value={authority}>{authority}</option>)}
+        </select>
+      </label>
+    )}
+    <button class="clear-button" type="button" data-clear-filters>{copy.clear}</button>
+  </div>
+  <div class="results-bar">
+    <strong data-result-count>{resources.length}</strong>
+    <span>{copy.records}</span>
+  </div>
+  <div class="resource-grid">
+    {resources.map((resource) => <ResourceCard resource={resource} lang={lang} />)}
+  </div>
+  <p class="empty-state" data-empty-state hidden>{copy.noResults}</p>
+</section>
+
+<script is:inline src="/scripts/search.js"></script>
