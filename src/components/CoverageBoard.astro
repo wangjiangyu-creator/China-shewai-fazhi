@@ -1,5 +1,5 @@
 ---
-import { getCopy, topics, typedResources, type Language } from "../lib/content";
+import { getCopy, languagePath, topics, typedResources, type Language } from "../lib/content";
 
 interface Props {
   lang: Language;
@@ -22,7 +22,7 @@ const copy = getCopy(lang);
     })
     .sort((a, b) => b.related.length - a.related.length || a.topic.label[lang].localeCompare(b.topic.label[lang], lang === "zh" ? "zh-CN" : "en"))
     .map(({ topic, related, official }) => (
-      <a class="coverage-item" href={`/${lang}/topics/${topic.id}/`}>
+      <a class="coverage-item" href={languagePath(lang, `/topics/${topic.id}/`)}>
         <strong>{topic.label[lang]}</strong>
         <span>{related.length} {copy.records}</span>
         <small>{official} {copy.officialEnglish}</small>
