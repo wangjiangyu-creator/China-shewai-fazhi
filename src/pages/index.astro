@@ -1,15 +1,19 @@
 ---
+import { sitePath } from "../lib/content";
+
+const zhUrl = sitePath("/zh/");
+const enUrl = sitePath("/en/");
 ---
 
 <html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="refresh" content="0; url=/zh/" />
+    <meta http-equiv="refresh" content={`0; url=${zhUrl}`} />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>中国涉外法治研究门户</title>
   </head>
   <body>
-    <a href="/zh/">进入中文站</a>
-    <a href="/en/">English</a>
+    <a href={zhUrl}>进入中文站</a>
+    <a href={enUrl}>English</a>
   </body>
 </html>
