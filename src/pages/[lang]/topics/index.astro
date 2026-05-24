@@ -2,7 +2,7 @@
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import CoverageBoard from "../../../components/CoverageBoard.astro";
 import SearchPanel from "../../../components/SearchPanel.astro";
-import { getCopy, topics, typedResources, type Language } from "../../../lib/content";
+import { getCopy, languagePath, topics, typedResources, type Language } from "../../../lib/content";
 
 export function getStaticPaths() {
   return [{ params: { lang: "zh" } }, { params: { lang: "en" } }];
@@ -45,7 +45,7 @@ const topicRows = topics
           <p>
             {relatedCount} {copy.records}，{officialCount} {copy.officialEnglish}
           </p>
-          <a href={`/${lang}/topics/${topic.id}/`}>{lang === "zh" ? "进入专题" : "Open topic"}</a>
+          <a href={languagePath(lang, `/topics/${topic.id}/`)}>{lang === "zh" ? "进入专题" : "Open topic"}</a>
         </article>
       ))}
     </div>
