@@ -6,6 +6,7 @@ import {
   getCopy,
   getTopic,
   getTool,
+  languagePath,
   tools,
   typedResources,
   type Language
@@ -37,7 +38,7 @@ const sourceRows = Object.values(
       acc[key].count += 1;
       if (resource.englishStatus === "official") acc[key].officialEnglish += 1;
       acc[key].categories.add(getCategory(resource.category).label[lang]);
-      acc[key].links.push({ label: resource.title[lang], url: `/${lang}/resources/${resource.slug}/` });
+      acc[key].links.push({ label: resource.title[lang], url: languagePath(lang, `/resources/${resource.slug}/`) });
       return acc;
     },
     {} as Record<string, { authority: string; categories: Set<string>; count: number; officialEnglish: number; links: Array<{ label: string; url: string }> }>
@@ -52,7 +53,7 @@ const sourceRows = Object.values(
       <h1>{tool.label[lang]}</h1>
       <p class="section-lead">{tool.description[lang]}</p>
       <nav class="tool-nav" aria-label="Tool navigation">
-        {tools.map((item) => <a href={`/${lang}/tools/${item.id}/`}>{item.label[lang]}</a>)}
+        {tools.map((item) => <a href={languagePath(lang, `/tools/${item.id}/`)}>{item.label[lang]}</a>)}
       </nav>
     </div>
   </section>
@@ -64,7 +65,7 @@ const sourceRows = Object.values(
         {sorted.map((resource) => (
           <article class="timeline-item">
             <strong>{formatDate(resource.date, lang)}</strong>
-            <h3><a href={`/${lang}/resources/${resource.slug}/`}>{resource.title[lang]}</a></h3>
+            <h3><a href={languagePath(lang, `/resources/${resource.slug}/`)}>{resource.title[lang]}</a></h3>
             <p>{resource.summary[lang]}</p>
           </article>
         ))}
@@ -91,7 +92,7 @@ const sourceRows = Object.values(
             <article class="tool-card">
               <h3>{getTopic(topicId).label[lang]}</h3>
               <p>{count} {copy.records}</p>
-              <a class="hero-link" href={`/${lang}/topics/${topicId}/`}>{lang === "zh" ? "查看资料" : "View records"}</a>
+              <a class="hero-link" href={languagePath(lang, `/topics/${topicId}/`)}>{lang === "zh" ? "查看资料" : "View records"}</a>
             </article>
           );
         })}
@@ -120,7 +121,7 @@ const sourceRows = Object.values(
             </div>
             <div class="source-links">
               {row.links.slice(0, 4).map((link) => <a href={link.url}>{link.label}</a>)}
-              <a href={`/${lang}/resources/?authority=${encodeURIComponent(row.authority)}`}>{lang === "zh" ? "查看全部来源资料" : "View all records"}</a>
+              <a href={languagePath(lang, `/resources/?authority=${encodeURIComponent(row.authority)}`)}>{lang === "zh" ? "查看全部来源资料" : "View all records"}</a>
             </div>
           </article>
         ))}
