@@ -264,6 +264,12 @@ export function resourceSearchText(resource: Resource): string {
     .toLowerCase();
 }
 
+const basePath = import.meta.env.BASE_URL === "/" ? "" : import.meta.env.BASE_URL.replace(/\/$/, "");
+
+export function sitePath(path = "/"): string {
+  return `${basePath}${path.startsWith("/") ? path : `/${path}`}`;
+}
+
 export function languagePath(lang: Language, path = ""): string {
-  return `/${lang}${path.startsWith("/") ? path : `/${path}`}`.replace(/\/$/, "/");
+  return sitePath(`/${lang}${path.startsWith("/") ? path : `/${path}`}`);
 }
