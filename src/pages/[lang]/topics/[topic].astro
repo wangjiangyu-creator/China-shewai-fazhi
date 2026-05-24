@@ -5,6 +5,7 @@ import {
   getCopy,
   getTopic,
   getKind,
+  languagePath,
   topics,
   typedResources,
   formatDate,
@@ -126,7 +127,7 @@ const relatedTopicRows = topics
             <article class="tool-card">
               <h3>
                 <a
-                  href={`/${lang}/resources/?topic=${encodeURIComponent(topicId)}&authority=${encodeURIComponent(item.authority)}`}
+                  href={languagePath(lang, `/resources/?topic=${encodeURIComponent(topicId)}&authority=${encodeURIComponent(item.authority)}`)}
                 >
                   {item.authority}
                 </a>
@@ -142,7 +143,7 @@ const relatedTopicRows = topics
           {latestInTopic.map((resource) => (
             <article class="tool-card">
               <h3>
-                <a href={`/${lang}/resources/${resource.slug}/`}>{resource.title[lang]}</a>
+                <a href={languagePath(lang, `/resources/${resource.slug}/`)}>{resource.title[lang]}</a>
               </h3>
               <p>{resource.summary[lang]}</p>
               <p class="meta-line">
@@ -159,7 +160,7 @@ const relatedTopicRows = topics
             {relatedTopicRows.map((item) => (
               <article class="tool-card">
                 <h3>
-                  <a href={`/${lang}/topics/${item.topic.id}/`}>{item.topic.label[lang]}</a>
+                  <a href={languagePath(lang, `/topics/${item.topic.id}/`)}>{item.topic.label[lang]}</a>
                 </h3>
                 <p>{item.overlap} {copy.records}</p>
               </article>
