@@ -1,0 +1,351 @@
+{
+  "categories": [
+    {
+      "id": "policy",
+      "label": {
+        "zh": "领导讲话和政策文件",
+        "en": "Leadership Speeches and Policy Documents"
+      },
+      "description": {
+        "zh": "收录中央重要讲话、规划、政策解读和部门发布。",
+        "en": "Central speeches, plans, policy interpretations, and ministerial releases."
+      }
+    },
+    {
+      "id": "legislation",
+      "label": {
+        "zh": "涉外立法",
+        "en": "Foreign-Related Legislation"
+      },
+      "description": {
+        "zh": "整理涉外法律、行政法规、司法解释和重要立法动态。",
+        "en": "Laws, regulations, judicial interpretations, and legislative updates involving foreign-related matters."
+      }
+    },
+    {
+      "id": "treaties",
+      "label": {
+        "zh": "国际法与条约",
+        "en": "International Law and Treaties"
+      },
+      "description": {
+        "zh": "汇集条约数据库、国际组织规则和中国参与国际法治的资料。",
+        "en": "Treaty databases, international organization materials, and China's participation in international rule of law."
+      }
+    },
+    {
+      "id": "cases",
+      "label": {
+        "zh": "案例与实践",
+        "en": "Cases and Practice"
+      },
+      "description": {
+        "zh": "聚焦涉外审判、仲裁、调解、执法和企业出海合规案例。",
+        "en": "Foreign-related adjudication, arbitration, mediation, enforcement, and outbound compliance practice."
+      }
+    },
+    {
+      "id": "scholarship",
+      "label": {
+        "zh": "学术文献",
+        "en": "Scholarship"
+      },
+      "description": {
+        "zh": "分为基础理论与专门问题，只展示题录、摘要和合法来源链接。",
+        "en": "Bibliographic entries and summaries for foundational theory and specialized issues."
+      }
+    },
+    {
+      "id": "global-governance",
+      "label": {
+        "zh": "国际组织与全球治理",
+        "en": "International Organizations and Global Governance"
+      },
+      "description": {
+        "zh": "跟踪联合国、WTO、HCCH、UNCITRAL、WIPO等机构资料。",
+        "en": "Materials from the UN, WTO, HCCH, UNCITRAL, WIPO, and related institutions."
+      }
+    }
+  ],
+  "kinds": [
+    {
+      "id": "speech",
+      "label": {
+        "zh": "讲话报道",
+        "en": "Speech / News Release"
+      },
+      "description": {
+        "zh": "领导讲话、集体学习、新闻通稿和政策发布报道。",
+        "en": "Leadership speeches, study sessions, news releases, and policy announcements."
+      }
+    },
+    {
+      "id": "law",
+      "label": {
+        "zh": "法律",
+        "en": "Law"
+      },
+      "description": {
+        "zh": "全国人大及其常委会制定的法律。",
+        "en": "Laws enacted by the National People's Congress and its Standing Committee."
+      }
+    },
+    {
+      "id": "regulation",
+      "label": {
+        "zh": "行政法规与部门规章",
+        "en": "Regulation / Departmental Rule"
+      },
+      "description": {
+        "zh": "国务院行政法规、部门规章和规范性文件。",
+        "en": "Administrative regulations, departmental rules, and normative documents."
+      }
+    },
+    {
+      "id": "judicial-document",
+      "label": {
+        "zh": "司法文件",
+        "en": "Judicial Document"
+      },
+      "description": {
+        "zh": "司法解释、司法政策文件、司法协助和审判工作文件。",
+        "en": "Judicial interpretations, judicial policy documents, assistance materials, and trial guidance."
+      }
+    },
+    {
+      "id": "case",
+      "label": {
+        "zh": "案例",
+        "en": "Case"
+      },
+      "description": {
+        "zh": "典型案例、裁判规则和实践观察。",
+        "en": "Typical cases, adjudicative rules, and practice notes."
+      }
+    },
+    {
+      "id": "database",
+      "label": {
+        "zh": "数据库与平台",
+        "en": "Database / Platform"
+      },
+      "description": {
+        "zh": "官方数据库、平台和持续更新的资料入口。",
+        "en": "Official databases, platforms, and continuously updated source gateways."
+      }
+    },
+    {
+      "id": "white-paper",
+      "label": {
+        "zh": "白皮书与报告",
+        "en": "White Paper / Report"
+      },
+      "description": {
+        "zh": "政府白皮书、年度报告和专题报告。",
+        "en": "Government white papers, annual reports, and thematic reports."
+      }
+    },
+    {
+      "id": "treaty",
+      "label": {
+        "zh": "条约与公约",
+        "en": "Treaty / Convention"
+      },
+      "description": {
+        "zh": "中国参加、签署或需要重点跟踪的多边条约、公约和国际法律文书。",
+        "en": "Multilateral treaties, conventions, and international legal instruments involving China or central to the research agenda."
+      }
+    },
+    {
+      "id": "scholarship",
+      "label": {
+        "zh": "学术文献",
+        "en": "Scholarship"
+      },
+      "description": {
+        "zh": "学术文章、理论阐释和研究综述的题录资料。",
+        "en": "Bibliographic records for scholarship, theory essays, and research reviews."
+      }
+    },
+    {
+      "id": "international-organization",
+      "label": {
+        "zh": "国际组织资料",
+        "en": "International Organization Material"
+      },
+      "description": {
+        "zh": "国际组织、公约机制和全球治理平台资料。",
+        "en": "International organizations, convention mechanisms, and global governance platforms."
+      }
+    }
+  ],
+  "topics": [
+    {
+      "id": "theory",
+      "label": {
+        "zh": "涉外法治理论",
+        "en": "Theory of Foreign-Related Rule of Law"
+      },
+      "description": {
+        "zh": "概念、体系定位、价值目标、方法论和知识体系。",
+        "en": "Concepts, system position, values, methodology, and knowledge framework."
+      }
+    },
+    {
+      "id": "trade-investment",
+      "label": {
+        "zh": "经贸与投资",
+        "en": "Trade and Investment"
+      },
+      "description": {
+        "zh": "外商投资、对外贸易、自由贸易试验区和制度型开放。",
+        "en": "Foreign investment, foreign trade, free trade zones, and institutional opening-up."
+      }
+    },
+    {
+      "id": "sanctions-countermeasures",
+      "label": {
+        "zh": "制裁与反制裁",
+        "en": "Sanctions and Countermeasures"
+      },
+      "description": {
+        "zh": "反制裁、反干涉、反长臂管辖和阻断制度。",
+        "en": "Counter-sanctions, anti-interference, anti-long-arm jurisdiction, and blocking mechanisms."
+      }
+    },
+    {
+      "id": "dispute-resolution",
+      "label": {
+        "zh": "涉外纠纷解决",
+        "en": "Foreign-Related Dispute Resolution"
+      },
+      "description": {
+        "zh": "涉外司法、仲裁、调解、司法协助和判决承认执行。",
+        "en": "Adjudication, arbitration, mediation, judicial assistance, and recognition and enforcement."
+      }
+    },
+    {
+      "id": "corporate-compliance",
+      "label": {
+        "zh": "企业合规",
+        "en": "Corporate Compliance"
+      },
+      "description": {
+        "zh": "出海企业的制裁、出口管制、数据、知识产权和劳工合规。",
+        "en": "Sanctions, export control, data, IP, and labor compliance for outbound companies."
+      }
+    },
+    {
+      "id": "data-digital",
+      "label": {
+        "zh": "数据跨境与数字法治",
+        "en": "Cross-Border Data and Digital Rule of Law"
+      },
+      "description": {
+        "zh": "数据跨境流动、数字贸易、网络安全和人工智能治理。",
+        "en": "Cross-border data flows, digital trade, cybersecurity, and AI governance."
+      }
+    },
+    {
+      "id": "overseas-interests",
+      "label": {
+        "zh": "海外利益保护",
+        "en": "Protection of Overseas Interests"
+      },
+      "description": {
+        "zh": "领事保护、海外投资权益、海外安全和法律服务链条。",
+        "en": "Consular protection, overseas investment interests, security, and legal service chains."
+      }
+    },
+    {
+      "id": "talent",
+      "label": {
+        "zh": "人才培养",
+        "en": "Talent Development"
+      },
+      "description": {
+        "zh": "涉外法治人才、涉外律师、仲裁员和复合型研究队伍建设。",
+        "en": "Foreign-related legal talent, lawyers, arbitrators, and interdisciplinary research teams."
+      }
+    },
+    {
+      "id": "jurisdictions-regions",
+      "label": {
+        "zh": "国别与区域法治",
+        "en": "Jurisdictions and Regional Legal Systems"
+      },
+      "description": {
+        "zh": "美国、欧盟、东盟、一带一路沿线和全球南方法律环境。",
+        "en": "Legal environments in the United States, EU, ASEAN, Belt and Road jurisdictions, and the Global South."
+      }
+    },
+    {
+      "id": "global-governance",
+      "label": {
+        "zh": "国际组织与全球治理",
+        "en": "International Organizations and Global Governance"
+      },
+      "description": {
+        "zh": "国际组织、公约机制、全球治理规则和中国参与国际规则供给。",
+        "en": "International organizations, convention mechanisms, global governance rules, and China's participation in rule supply."
+      }
+    }
+  ],
+  "tools": [
+    {
+      "id": "timeline",
+      "label": {
+        "zh": "法治数据与时间线",
+        "en": "Timeline and Legal Data"
+      },
+      "description": {
+        "zh": "按年份追踪讲话、政策、立法、条约、案例和国际组织动态。",
+        "en": "A year-by-year view of speeches, policies, legislation, treaties, cases, and institutional developments."
+      }
+    },
+    {
+      "id": "keywords",
+      "label": {
+        "zh": "术语与索引",
+        "en": "Terms and Index"
+      },
+      "description": {
+        "zh": "建立中英文关键词、概念解释和交叉标签。",
+        "en": "Bilingual keywords, concept notes, and cross-tags."
+      }
+    },
+    {
+      "id": "toolbox",
+      "label": {
+        "zh": "典型法律工具箱",
+        "en": "Legal Toolbox"
+      },
+      "description": {
+        "zh": "面向研究和实务的法律工具、清单和专题入口。",
+        "en": "Legal tools, checklists, and thematic entry points for research and practice."
+      }
+    },
+    {
+      "id": "source-map",
+      "label": {
+        "zh": "官方来源导航",
+        "en": "Official Source Map"
+      },
+      "description": {
+        "zh": "按机构整理中英文官方来源，标注可获得英文版的资料入口。",
+        "en": "A source directory grouping official Chinese and English entry points by institution."
+      }
+    },
+    {
+      "id": "project-updates",
+      "label": {
+        "zh": "研究成果与项目动态",
+        "en": "Research Outputs and Project Updates"
+      },
+      "description": {
+        "zh": "沉淀项目简报、专题报告、会议纪要和阶段成果。",
+        "en": "Project briefs, thematic reports, meeting notes, and interim outputs."
+      }
+    }
+  ]
+}
