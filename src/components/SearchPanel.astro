@@ -31,6 +31,7 @@ const sourceLanguageLabels: Record<string, string> = {
 
 const publicationTypeLabels: Record<string, string> = {
   journal: copy.publicationTypeJournal,
+  book: copy.publicationTypeBook,
   government: copy.publicationTypeGovernment,
   "research-institute": copy.publicationTypeResearchInstitute,
   "think-tank": copy.publicationTypeThinkTank,
@@ -52,8 +53,13 @@ const publicationTypeOptions = visibleScholarshipFilters
       .filter(
         (
           item
-        ): item is "journal" | "government" | "think-tank" | "research-institute" | "academic-platform" =>
-          item === "journal" || item === "government" || item === "think-tank" || item === "research-institute" || item === "academic-platform"
+        ): item is "journal" | "book" | "government" | "think-tank" | "research-institute" | "academic-platform" =>
+          item === "journal" ||
+          item === "book" ||
+          item === "government" ||
+          item === "think-tank" ||
+          item === "research-institute" ||
+          item === "academic-platform"
       )
       .sort()
   : [];

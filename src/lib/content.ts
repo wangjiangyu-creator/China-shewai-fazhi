@@ -1,4 +1,5 @@
 import resources from "../data/resources.json";
+import supplementalScholarship from "../data/supplemental-scholarship.json";
 import taxonomy from "../data/taxonomy.json";
 
 export const languages = ["zh", "en"] as const;
@@ -12,7 +13,7 @@ export type LocalizedText = {
 export type EnglishStatus = "official" | "summary-only" | "unavailable";
 export type ScholarshipType = "foundational" | "specialized";
 export type SourceLanguage = "zh" | "en" | "bilingual";
-export type PublicationType = "journal" | "government" | "think-tank" | "research-institute" | "academic-platform";
+export type PublicationType = "journal" | "book" | "government" | "think-tank" | "research-institute" | "academic-platform";
 
 export type TaxonomyItem = {
   id: string;
@@ -69,7 +70,7 @@ export const siteCopy = {
     categories: "资料库",
     scholarship: "学术文献",
     scholarshipIntro:
-      "汇集正式刊物、政府机构、研究机构和智库发表的涉外法治研究，只展示题录、摘要和合法来源链接。",
+      "汇集图书、正式刊物、政府机构、研究机构和智库发表的涉外法治研究，只展示题录、摘要和合法来源链接。",
     foundationalScholarship: "基础理论",
     specializedScholarship: "专门问题",
     sourceLink: "来源链接",
@@ -80,6 +81,7 @@ export const siteCopy = {
     allSourceLanguages: "全部来源语种",
     allPublicationTypes: "全部发表类型",
     publicationTypeJournal: "正式刊物",
+    publicationTypeBook: "图书",
     publicationTypeGovernment: "政府机构",
     publicationTypeResearchInstitute: "研究机构",
     publicationTypeThinkTank: "智库机构",
@@ -143,7 +145,7 @@ export const siteCopy = {
     categories: "Library",
     scholarship: "Scholarship",
     scholarshipIntro:
-      "A curated bibliography of formal journal articles, government and research-institute essays, and think-tank analysis on foreign-related rule of law, with summaries and lawful source links only.",
+      "A curated bibliography of books, formal journal articles, government and research-institute essays, and think-tank analysis on foreign-related rule of law, with summaries and lawful source links only.",
     foundationalScholarship: "Foundational Theory",
     specializedScholarship: "Specialized Issues",
     sourceLink: "Source",
@@ -154,6 +156,7 @@ export const siteCopy = {
     allSourceLanguages: "All source languages",
     allPublicationTypes: "All publication types",
     publicationTypeJournal: "Journal",
+    publicationTypeBook: "Book",
     publicationTypeGovernment: "Government institution",
     publicationTypeResearchInstitute: "Research institute",
     publicationTypeThinkTank: "Think tank",
@@ -194,7 +197,8 @@ export const siteCopy = {
   }
 } as const;
 
-export const typedResources = resources as Resource[];
+const combinedResources = [...resources, ...supplementalScholarship];
+export const typedResources = [...new Map(combinedResources.map((resource) => [resource.slug, resource])).values()] as Resource[];
 export const categories = taxonomy.categories as TaxonomyItem[];
 export const kinds = taxonomy.kinds as TaxonomyItem[];
 export const topics = taxonomy.topics as TaxonomyItem[];

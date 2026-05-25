@@ -19,7 +19,7 @@ const latest = scholarshipResources.slice(0, 6);
 const chineseSources = scholarshipResources.filter((resource) => ["zh", "bilingual"].includes(resource.sourceLanguage ?? ""));
 const englishSources = scholarshipResources.filter((resource) => ["en", "bilingual"].includes(resource.sourceLanguage ?? ""));
 const officialEnglish = scholarshipResources.filter((resource) => resource.officialEnglishUrl);
-const journalRecords = scholarshipResources.filter((resource) => resource.publicationType === "journal");
+const formalPublicationRecords = scholarshipResources.filter((resource) => ["journal", "book"].includes(resource.publicationType ?? ""));
 ---
 
 <BaseLayout
@@ -40,8 +40,8 @@ const journalRecords = scholarshipResources.filter((resource) => resource.public
           <span>{copy.records}</span>
         </div>
         <div class="stat">
-          <strong>{journalRecords.length}</strong>
-          <span>{lang === "zh" ? "正式刊物" : "Journal articles"}</span>
+          <strong>{formalPublicationRecords.length}</strong>
+          <span>{lang === "zh" ? "期刊/图书" : "Journals / books"}</span>
         </div>
         <div class="stat">
           <strong>{chineseSources.length}</strong>
