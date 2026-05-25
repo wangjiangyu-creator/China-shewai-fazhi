@@ -7,7 +7,7 @@ const readJson = async (path) => JSON.parse(await readFile(new URL(path, import.
 const allowedEnglishStatuses = new Set(["official", "summary-only", "unavailable"]);
 const allowedScholarshipTypes = new Set(["foundational", "specialized"]);
 const allowedSourceLanguages = new Set(["zh", "en", "bilingual"]);
-const allowedPublicationTypes = new Set(["journal", "government", "think-tank", "research-institute", "academic-platform"]);
+const allowedPublicationTypes = new Set(["journal", "book", "government", "think-tank", "research-institute", "academic-platform"]);
 const requiredResourceFields = [
   "slug",
   "title",
@@ -24,9 +24,17 @@ const requiredResourceFields = [
   "englishStatus"
 ];
 
+const readResources = async () => {
+  const [resources, supplementalScholarship] = await Promise.all([
+    readJson("../src/data/resources.json"),
+    readJson("../src/data/supplemental-scholarship.json")
+  ]);
+  return [...new Map([...resources, ...supplementalScholarship].map((resource) => [resource.slug, resource])).values()];
+};
+
 test("resources satisfy the bilingual metadata contract", async () => {
   const taxonomy = await readJson("../src/data/taxonomy.json");
-  const resources = await readJson("../src/data/resources.json");
+  const resources = await readResources();
   const categories = new Set(taxonomy.categories.map((item) => item.id));
   const kinds = new Set(taxonomy.kinds.map((item) => item.id));
   const topics = new Set(taxonomy.topics.map((item) => item.id));
@@ -68,7 +76,7 @@ test("resources satisfy the bilingual metadata contract", async () => {
 });
 
 test("scholarship records are a standalone curated section", async () => {
-  const resources = await readJson("../src/data/resources.json");
+  const resources = await readResources();
   const scholarship = resources.filter((resource) => resource.category === "scholarship");
   const foundational = scholarship.filter((resource) => resource.scholarshipType === "foundational");
   const specialized = scholarship.filter((resource) => resource.scholarshipType === "specialized");
@@ -118,7 +126,7 @@ test("taxonomy keeps Chinese and English navigation in parity", async () => {
 
 test("seed library covers every major research topic and category", async () => {
   const taxonomy = await readJson("../src/data/taxonomy.json");
-  const resources = await readJson("../src/data/resources.json");
+  const resources = await readResources();
   const categoryMinimums = new Map([
     ["policy", 15],
     ["legislation", 40],
@@ -143,7 +151,7 @@ test("seed library covers every major research topic and category", async () => 
 });
 
 test("seed library includes core private international law and treaty mechanisms", async () => {
-  const resources = await readJson("../src/data/resources.json");
+  const resources = await readResources();
   const slugs = new Set(resources.map((resource) => resource.slug));
   const requiredSlugs = [
     "law-applicable-foreign-related-civil-relations",
